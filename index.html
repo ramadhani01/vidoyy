@@ -177,12 +177,11 @@
             overflow: hidden;
         }
 
-        .modal .player-box video {
-            width: 100%;
-            display: block;
-            max-height: 80vh;
-            background: #000;
-        }
+        .modal .player-box iframe {
+    width: 100%;
+    height: 80vh;
+    border: 0;
+}
 
         .footer {
             max-width: 1200px;
@@ -240,11 +239,15 @@
     <div class="modal" id="playerModal">
         <div class="close" onclick="closePlayer()">&times;</div>
         <div class="player-box">
-            <video id="playerVideo" controls autoplay playsinline>
-                <source src="" type="video/mp4">
-                Browser tidak mendukung video.
-            </video>
-        </div>
+    <iframe
+        id="playerFrame"
+        width="100%"
+        height="500"
+        frameborder="0"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+    </iframe>
+</div>
     </div>
 
     <script>
@@ -326,32 +329,24 @@
             }
 
             const modal = document.getElementById('playerModal');
-            const player = document.getElementById('playerVideo');
+            const frame = document.getElementById('playerFrame');
 
-            const source = player.querySelector('source');
-            source.src = video.video;
-            player.load();
+frame.src = video.video;
 
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            setTimeout(() => {
-                player.play().catch(() => {});
-            }, 300);
+modal.classList.add('active');
+document.body.style.overflow = 'hidden';
         }
 
         // ==========================================================
         // ❌ CLOSE
         // ==========================================================
         function closePlayer() {
-            const modal = document.getElementById('playerModal');
-            const player = document.getElementById('playerVideo');
+    const modal = document.getElementById('playerModal');
 
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            player.pause();
-            player.currentTime = 0;
-        }
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    document.getElementById('playerFrame').src = "";
+}
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closePlayer();
