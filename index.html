@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Down · Sederhana</title>
+    <!-- Font Awesome 6 (free) for minimal icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #11161f;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 1.5rem;
+            margin: 0;
+        }
+
+        .card {
+            max-width: 520px;
+            width: 100%;
+            background: #1a202b;
+            border-radius: 2rem;
+            padding: 2.8rem 2.2rem;
+            box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .icon-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: rgba(220, 70, 70, 0.08);
+            border-radius: 50%;
+            margin-bottom: 1.6rem;
+            border: 1px solid rgba(255, 80, 80, 0.05);
+        }
+
+        .icon-wrap i {
+            font-size: 3.2rem;
+            color: #f05a5a;
+            filter: drop-shadow(0 4px 12px rgba(255, 60, 60, 0.2));
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #f0f3f9;
+            margin-bottom: 0.3rem;
+        }
+
+        .sub {
+            font-size: 1rem;
+            color: #a4b7d6;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+            line-height: 1.5;
+        }
+
+        .sub i {
+            color: #f05a5a;
+            margin-right: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 70, 70, 0.08);
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 90, 90, 0.06);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            color: #f08a8a;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: none;
+            background: transparent;
+            color: #cad6ee;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: 0.15s ease;
+            text-decoration: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-primary {
+            background: #d94a4a;
+            border: none;
+            color: white;
+            box-shadow: 0 8px 20px -8px rgba(200, 50, 50, 0.4);
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background: #e85a5a;
+            transform: scale(1.02);
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn i {
+            font-size: 0.9rem;
+        }
+
+        .footer-meta {
+            font-size: 0.75rem;
+            color: #5f7397;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            padding-top: 1.4rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-meta i {
+            color: #60759b;
+            font-size: 0.7rem;
+        }
+
+        /* small */
+        @media (max-width: 480px) {
+            .card {
+                padding: 2rem 1.2rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn {
+                justify-content: center;
+                padding: 0.7rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- icon -->
+        <div class="icon-wrap">
+            <i class="fas fa-server"></i>
+        </div>
+
+        <!-- judul -->
+        <h1>Server Down</h1>
+
+        <!-- pesan singkat -->
+        <div class="sub">
+            <i class="fas fa-circle" style="font-size: 0.5rem; vertical-align: middle;"></i> 
+            Layanan sedang tidak tersedia. Kami sedang memperbaiki.
+        </div>
+
+        <!-- status kecil -->
+        <div class="badge">
+            <i class="fas fa-exclamation-triangle" style="margin-right: 6px;"></i> 503 · maintenance
+        </div>
+
+        <!-- tombol aksi -->
+        <div class="actions">
+            <button class="btn btn-primary" onclick="window.location.reload();">
+                <i class="fas fa-sync-alt"></i> Coba lagi
+            </button>
+            <button class="btn btn-outline" onclick="alert('Tim support sudah diberitahu. Kami akan segera merespon.')">
+                <i class="fas fa-headset"></i> Hubungi
+            </button>
+        </div>
+
+        <!-- footer kecil (waktu & info) -->
+        <div class="footer-meta">
+            <span><i class="far fa-clock"></i> <span id="clock-display">--:--</span> UTC</span>
+            <span><i class="far fa-calendar-alt"></i> <span id="date-display">--</span></span>
+            <span><i class="fas fa-rotate-right"></i> recovery <span id="recovery-timer">2m</span></span>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // update jam & tanggal UTC
+            function updateClock() {
+                const now = new Date();
+                const hh = String(now.getUTCHours()).padStart(2, '0');
+                const mm = String(now.getUTCMinutes()).padStart(2, '0');
+                const ss = String(now.getUTCSeconds()).padStart(2, '0');
+                const timeStr = hh + ':' + mm + ':' + ss;
+
+                const clockSpan = document.getElementById('clock-display');
+                if (clockSpan) clockSpan.textContent = timeStr;
+
+                const dateSpan = document.getElementById('date-display');
+                if (dateSpan) {
+                    const opts = { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' };
+                    dateSpan.textContent = now.toLocaleDateString('en-US', opts);
+                }
+            }
+
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // recovery countdown (hanya tampilan)
+            let minutes = 2;
+            const timerSpan = document.getElementById('recovery-timer');
+            if (timerSpan) {
+                setInterval(() => {
+                    if (minutes > 0) {
+                        minutes--;
+                        timerSpan.textContent = minutes + 'm';
+                    } else {
+                        timerSpan.textContent = 'soon';
+                    }
+                }, 60000);
+            }
+
+            // tombol "coba lagi" dengan efek loading sederhana
+            const tryBtn = document.querySelector('.btn-primary');
+            if (tryBtn) {
+                tryBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const original = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> memuat...';
+                    this.style.pointerEvents = 'none';
+                    this.style.opacity = '0.7';
+                    setTimeout(() => {
+                        this.innerHTML = original;
+                        this.style.pointerEvents = 'auto';
+                        this.style.opacity = '1';
+                        window.location.reload();
+                    }, 1000);
+                });
+            }
+
+            // tombol hubungi support feedback
+            const supportBtn = document.querySelector('.btn-outline');
+            if (supportBtn) {
+                supportBtn.addEventListener('click', function(e) {
+                    // alert sudah ada, tambahkan feedback visual
+                    this.innerHTML = '<i class="fas fa-check"></i> terkirim';
+                    this.style.borderColor = '#4caf50';
+                    this.style.color = '#b0d0b0';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-headset"></i> Hubungi';
+                        this.style.borderColor = '';
+                        this.style.color = '';
+                    }, 2000);
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>
