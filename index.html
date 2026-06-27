@@ -21,6 +21,7 @@
             padding: 20px;
         }
 
+        /* ========== HEADER ========== */
         .header {
             max-width: 1200px;
             margin: 0 auto 30px;
@@ -56,6 +57,7 @@
             font-weight: bold;
         }
 
+        /* ========== GRID ========== */
         .video-grid {
             max-width: 1200px;
             margin: 0 auto;
@@ -64,6 +66,7 @@
             gap: 18px;
         }
 
+        /* ========== CARD ========== */
         .video-card {
             background: #141414;
             border-radius: 10px;
@@ -71,6 +74,9 @@
             cursor: pointer;
             transition: all 0.3s;
             border: 1px solid #1f1f1f;
+            text-decoration: none;
+            display: block;
+            color: white; /* ← Link warna putih */
         }
 
         .video-card:hover {
@@ -83,24 +89,29 @@
             transform: scale(0.96);
         }
 
+        /* ========== THUMBNAIL ========== */
         .video-card .thumb {
             width: 100%;
             aspect-ratio: 16/9;
-            background: #111;
+            background: #0a0a0a;
             overflow: hidden;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .video-card .thumb img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             display: block;
             transition: 0.4s;
+            background: #0a0a0a;
         }
 
         .video-card:hover .thumb img {
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         .video-card .thumb .play-icon {
@@ -120,6 +131,7 @@
             opacity: 1;
         }
 
+        /* ========== INFO ========== */
         .video-card .info {
             padding: 12px 14px;
         }
@@ -131,58 +143,10 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: white; /* ← Judul putih */
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.92);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 36px;
-            color: #fff;
-            cursor: pointer;
-            z-index: 1000;
-            transition: 0.3s;
-            opacity: 0.7;
-        }
-
-        .modal .close:hover {
-            opacity: 1;
-            transform: rotate(90deg);
-            color: #f59b00;
-        }
-
-        .modal .player-box {
-            width: 100%;
-            max-width: 850px;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .modal .player-box iframe {
-    width: 100%;
-    height: 80vh;
-    border: 0;
-}
-
+        /* ========== FOOTER ========== */
         .footer {
             max-width: 1200px;
             margin: 30px auto 0;
@@ -195,7 +159,37 @@
         .footer i {
             color: #ef4444;
         }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
 
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #444;
+        }
+        .empty-state i {
+            font-size: 50px;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .empty-state h2 {
+            color: #f59b00;
+            margin-bottom: 8px;
+        }
+        .empty-state p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .empty-state strong {
+            color: #f59b00;
+        }
+
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 600px) {
             body { padding: 12px; }
             .video-grid {
@@ -203,7 +197,6 @@
                 gap: 12px;
             }
             .logo { font-size: 22px; }
-            .modal .close { font-size: 28px; top: 12px; right: 18px; }
             .video-card .thumb .play-icon { font-size: 36px; }
         }
 
@@ -236,60 +229,35 @@
         Dibuat dengan <i class="fa-solid fa-heart"></i>
     </div>
 
-    <div class="modal" id="playerModal">
-        <div class="close" onclick="closePlayer()">&times;</div>
-        <div class="player-box">
-    <iframe
-        id="playerFrame"
-        width="100%"
-        height="500"
-        frameborder="0"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-    </iframe>
-</div>
-    </div>
-
     <script>
         // ==========================================================
         // 📦 DATA VIDEO - EDIT DI SINI!
+        // Ganti URL dengan link Videy Anda
         // ==========================================================
         let videos = [
             {
                 id: 1,
                 title: "mawar pake botol parfum",
                 thumbnail: "https://raw.githubusercontent.com/ramadhani01/vidoyy/refs/heads/main/thumbnails/botol.png",
-                video: "https://drive.google.com/file/d/14_H2FySWZlnDs3-dMbUhAlQuk73qCVcl/preview"
+                url: "https://videy.co/v/?id=Mw7DIZwg1"
             },
             {
                 id: 2,
-                title: "Review HP Flagship 2024",
-                thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
-                video: "https://www.w3schools.com/html/mov_bbb.mp4"
+                title: "lagi vcs",
+                thumbnail: "https://raw.githubusercontent.com/ramadhani01/vidoyy/refs/heads/main/thumbnails/Screenshot_20260627-134730.jpg",
+                url: "https://videy.co/v/?id=sZockiYd1"
             },
             {
                 id: 3,
-                title: "Cara Masak Nasi Goreng Spesial",
-                thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
-                video: "https://www.w3schools.com/html/mov_bbb.mp4"
+                title: "main lidah",
+                thumbnail: "https://raw.githubusercontent.com/ramadhani01/vidoyy/refs/heads/main/thumbnails/Screenshot_20260627-134305.jpg",
+                url: "https://videy.co/v/?id=TXk0bCC41"
             },
             {
                 id: 4,
-                title: "Olahraga 10 Menit di Rumah",
-                thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
-                video: "https://www.w3schools.com/html/mov_bbb.mp4"
-            },
-            {
-                id: 5,
-                title: "Wisata Bali 2024 - Tempat Terbaik",
-                thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
-                video: "https://www.w3schools.com/html/mov_bbb.mp4"
-            },
-            {
-                id: 6,
-                title: "Tips Belajar Efektif untuk Mahasiswa",
-                thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
-                video: "https://www.w3schools.com/html/mov_bbb.mp4"
+                title: "clmk 4 jari",
+                thumbnail: "https://raw.githubusercontent.com/ramadhani01/vidoyy/refs/heads/main/thumbnails/Screenshot_20260627-134512.jpg",
+                url: "https://videy.co/v/?id=xr8JWPOG1"
             }
         ];
 
@@ -299,8 +267,20 @@
         function renderVideos() {
             const grid = document.getElementById('videoGrid');
 
+            if (videos.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <h2>Belum Ada Video</h2>
+                        <p>Tambahkan data di array <strong>videos</strong></p>
+                    </div>
+                `;
+                document.getElementById('totalCount').textContent = '0';
+                return;
+            }
+
             grid.innerHTML = videos.map(v => `
-                <div class="video-card" onclick="playVideo(${v.id})">
+                <a class="video-card" href="${v.url}" target="_blank" rel="noopener noreferrer">
                     <div class="thumb">
                         <img src="${v.thumbnail}" alt="${v.title}" 
                              loading="lazy"
@@ -312,49 +292,11 @@
                     <div class="info">
                         <h3 title="${v.title}">${v.title}</h3>
                     </div>
-                </div>
+                </a>
             `).join('');
 
             document.getElementById('totalCount').textContent = videos.length;
         }
-
-        // ==========================================================
-        // ▶️ PLAY VIDEO
-        // ==========================================================
-        function playVideo(id) {
-            const video = videos.find(v => v.id === id);
-            if (!video) {
-                alert('Video tidak ditemukan!');
-                return;
-            }
-
-            const modal = document.getElementById('playerModal');
-            const frame = document.getElementById('playerFrame');
-
-frame.src = video.video;
-
-modal.classList.add('active');
-document.body.style.overflow = 'hidden';
-        }
-
-        // ==========================================================
-        // ❌ CLOSE
-        // ==========================================================
-        function closePlayer() {
-    const modal = document.getElementById('playerModal');
-
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-    document.getElementById('playerFrame').src = "";
-}
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closePlayer();
-        });
-
-        document.getElementById('playerModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closePlayer();
-        });
 
         // ==========================================================
         // 🚀 START
@@ -363,6 +305,7 @@ document.body.style.overflow = 'hidden';
 
         console.log('🎬 Vidoy Stream siap!');
         console.log(`📹 Total: ${videos.length} video`);
+        console.log('💡 Klik thumbnail → buka link Videy di tab baru');
     </script>
 
 </body>
