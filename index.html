@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidoy Stream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ========== RESET ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .logo {
+            font-family: 'Rubik Mono One', sans-serif;
+            font-size: 28px;
+            color: #f59b00;
+            line-height: 1;
+        }
+        .logo small {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: #555;
+            font-weight: normal;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .total {
+            color: #555;
+            font-size: 14px;
+        }
+        .total span {
+            color: #f59b00;
+            font-weight: bold;
+        }
+
+        /* ========== GRID VIDEO ========== */
+        .video-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 18px;
+        }
+
+        /* ========== CARD VIDEO ========== */
+        .video-card {
+            background: #141414;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #1f1f1f;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            border-color: #f59b00;
+            box-shadow: 0 8px 25px rgba(245, 155, 0, 0.12);
+        }
+
+        .video-card:active {
+            transform: scale(0.96);
+        }
+
+        .video-card .thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #111;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .video-card .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: 0.4s;
+        }
+
+        .video-card:hover .thumb img {
+            transform: scale(1.05);
+        }
+
+        /* Play icon overlay */
+        .video-card .thumb .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: rgba(255,255,255,0.8);
+            text-shadow: 0 0 30px rgba(0,0,0,0.8);
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        .video-card:hover .thumb .play-icon {
+            opacity: 1;
+        }
+
+        /* Duration badge */
+        .video-card .thumb .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.85);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Info */
+        .video-card .info {
+            padding: 12px 14px;
+        }
+
+        .video-card .info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #444;
+        }
+        .empty-state i {
+            font-size: 50px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .empty-state h2 {
+            color: #f59b00;
+            margin-bottom: 8px;
+        }
+        .empty-state p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .empty-state code {
+            background: #1a1a1a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #f59b00;
+            font-size: 13px;
+        }
+
+        /* ========== MODAL PLAYER ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 36px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.3s;
+            opacity: 0.7;
+        }
+
+        .modal .close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+            color: #f59b00;
+        }
+
+        .modal .player-box {
+            width: 100%;
+            max-width: 850px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .modal .player-box video {
+            width: 100%;
+            display: block;
+            max-height: 80vh;
+            background: #000;
+        }
+
+        .modal .player-box .detail {
+            padding: 16px 20px;
+            background: #111;
+        }
+
+        .modal .player-box .detail h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .modal .player-box .detail .meta {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            gap: 16px;
+        }
+
+        .modal .player-box .detail .meta i {
+            margin-right: 4px;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            text-align: center;
+            padding: 20px 0 10px;
+            border-top: 1px solid #1a1a1a;
+            color: #333;
+            font-size: 13px;
+        }
+        .footer i {
+            color: #ef4444;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+            .logo { font-size: 22px; }
+            .modal .close { font-size: 28px; top: 12px; right: 18px; }
+            .modal .player-box .detail h2 { font-size: 14px; }
+            .video-card .thumb .play-icon { font-size: 36px; }
+        }
+
+        @media (max-width: 400px) {
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 10px;
+            }
+            .video-card .info { padding: 8px 10px; }
+            .video-card .info h3 { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <div class="header">
+        <div class="logo">
+            Vidoy
+            <small>S T R E A M</small>
+        </div>
+        <div class="total">
+            <i class="fa-regular fa-film"></i> <span id="totalCount">0</span> Video
+        </div>
+    </div>
+
+    <!-- ========== GRID VIDEO ========== -->
+    <div class="video-grid" id="videoGrid"></div>
+
+    <!-- ========== FOOTER ========== -->
+    <div class="footer">
+        <i class="fa-regular fa-copyright"></i> 2024 Vidoy Stream &bull;
+        Dibuat dengan <i class="fa-solid fa-heart"></i>
+    </div>
+
+    <!-- ========== MODAL PLAYER ========== -->
+    <div class="modal" id="playerModal">
+        <div class="close" onclick="closePlayer()">&times;</div>
+        <div class="player-box">
+            <video id="playerVideo" controls autoplay playsinline>
+                <source src="" type="video/mp4">
+                Browser tidak mendukung video.
+            </video>
+            <div class="detail">
+                <h2 id="modalTitle">Judul Video</h2>
+                <div class="meta">
+                    <span><i class="fa-regular fa-clock"></i> <span id="modalDuration">0:00</span></span>
+                    <span><i class="fa-regular fa-folder"></i> <span id="modalCategory">General</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================================
+        // 📦 DATA VIDEO - EDIT DI SINI!
+        // ==========================================================
+        let videos = [
+            // ⚠️ TAMBAHKAN VIDEO ANDA DI SINI ⚠️
+            // Contoh format:
+            // {
+            //     id: 1,
+            //     title: "Judul Video Anda",
+            //     thumbnail: "thumbnails/thumb1.jpg",
+            //     video: "videos/video1.mp4",
+            //     duration: "10:30",
+            //     category: "Tutorial"
+            // },
+        ];
+
+        // ==========================================================
+        // 🎬 RENDER
+        // ==========================================================
+        function renderVideos() {
+            const grid = document.getElementById('videoGrid');
+
+            if (videos.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <h2>Belum Ada Video</h2>
+                        <p>
+                            Upload video ke folder <strong style="color:#f59b00;">videos/</strong><br>
+                            dan thumbnail ke folder <strong style="color:#f59b00;">thumbnails/</strong>
+                        </p>
+                        <p style="font-size:13px; color:#333; margin-top:5px;">
+                            Lalu tambahkan data di array <code>videos</code> pada kode JavaScript
+                        </p>
+                    </div>
+                `;
+                document.getElementById('totalCount').textContent = '0';
+                return;
+            }
+
+            grid.innerHTML = videos.map(v => `
+                <div class="video-card" onclick="playVideo(${v.id})">
+                    <div class="thumb">
+                        <img src="${v.thumbnail}" alt="${v.title}" 
+                             loading="lazy"
+                             onerror="this.src='https://picsum.photos/seed/${v.id}/300/170'">
+                        <div class="play-icon">
+                            <i class="fa-solid fa-circle-play"></i>
+                        </div>
+                        <div class="duration">${v.duration || '0:00'}</div>
+                    </div>
+                    <div class="info">
+                        <h3 title="${v.title}">${v.title}</h3>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('totalCount').textContent = videos.length;
+        }
+
+        // ==========================================================
+        // ▶️ PLAY VIDEO
+        // ==========================================================
+        function playVideo(id) {
+            const video = videos.find(v => v.id === id);
+            if (!video) {
+                alert('Video tidak ditemukan!');
+                return;
+            }
+
+            const modal = document.getElementById('playerModal');
+            const player = document.getElementById('playerVideo');
+
+            // Set video
+            const source = player.querySelector('source');
+            source.src = video.video;
+            player.load();
+
+            // Set info
+            document.getElementById('modalTitle').textContent = video.title;
+            document.getElementById('modalDuration').textContent = video.duration || '0:00';
+            document.getElementById('modalCategory').textContent = video.category || 'General';
+
+            // Tampilkan modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Play
+            setTimeout(() => {
+                player.play().catch(() => {});
+            }, 300);
+        }
+
+        // ==========================================================
+        // ❌ CLOSE
+        // ==========================================================
+        function closePlayer() {
+            const modal = document.getElementById('playerModal');
+            const player = document.getElementById('playerVideo');
+
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            player.pause();
+            player.currentTime = 0;
+        }
+
+        // ESC close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePlayer();
+        });
+
+        // Klik di luar close
+        document.getElementById('playerModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closePlayer();
+        });
+
+        // ==========================================================
+        // 🚀 START
+        // ==========================================================
+        renderVideos();
+
+        console.log('🎬 Vidoy Stream siap!');
+        console.log(`📹 Total: ${videos.length} video`);
+        console.log('💡 Upload video ke folder "videos/" dan thumbnail ke "thumbnails/"');
+        console.log('📝 Edit array "videos" untuk menambah video sendiri');
+    </script>
+
+</body>
+</html>
